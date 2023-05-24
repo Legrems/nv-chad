@@ -16,31 +16,41 @@ M.general = {
   },
 
   n = {
-    ["<Esc>"] = { ":noh <CR>", "Clear highlights" },
+    ["<leader>n"] = { ":noh <CR>", "Clear highlights" },
+    ["<leader>rr"] = { ":source $MYVIMRC<CR>", "Reload config file" },
     -- switch between windows
     ["<C-h>"] = { "<C-w>h", "Window left" },
     ["<C-l>"] = { "<C-w>l", "Window right" },
     ["<C-j>"] = { "<C-w>j", "Window down" },
     ["<C-k>"] = { "<C-w>k", "Window up" },
 
+    ["<C-d>"] = { "<cmd> tab Git diff %<CR>", "Git diff this file" },
+    ["<C-p>"] = { "<cmd> tab Git diff<CR>", "Git diff global" },
+
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
     -- Copy all
-    ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
+    -- ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
+
+    -- Quit
+    ["<C-q>"] = { "<cmd> q! <CR>", "Force quit window" },
 
     -- line numbers
-    ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
-    ["<leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
+    -- ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
+    -- ["<leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using <cmd> :map
     -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+    -- ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+    -- ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
+    -- ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
+    -- ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+
+    ["<leader>y"] = {"<cmd> :w! /tmp/vimtmp<CR>", "Save into a global tmp file"},
+    ["<leader>p"] = {"<cmd> :r! cat /tmp/vimtmp<CR>", "Restore from the global tmp file"},
 
     -- new buffer
     ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
@@ -52,17 +62,27 @@ M.general = {
   },
 
   v = {
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+    -- ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
+    -- ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
   },
 
   x = {
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
+    -- ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+    -- ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     -- Don't copy the replaced text after pasting in visual mode
     -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
     ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", opts = { silent = true } },
   },
+}
+
+M.gitstuffs = {
+
+    n = {
+        ["<C-c>"] = { "<cmd> vertical topleft Git <bar> vertical resize 50<CR>", "Show Git status on a left pane" },
+        ["<F3>"] = { "<cmd> Flog -all<CR>", "Show git tree" },
+        ["<C-t>"] = { "<cmd> TagbarToggle<CR>", "Show tagbar" },
+    }
+
 }
 
 M.tabufline = {
@@ -259,10 +279,10 @@ M.telescope = {
 
   n = {
     -- find
-    ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "Find files" },
-    ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },
-    ["<leader>fw"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
-    ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
+    ["<C-g>"] = { "<cmd> Telescope find_files <CR>", "Find files" },
+    ["<C-x>"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },
+    ["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
+    ["<C-b>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },

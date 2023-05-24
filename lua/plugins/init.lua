@@ -3,6 +3,14 @@
 local default_plugins = {
 
   "nvim-lua/plenary.nvim",
+  {"tpope/vim-fugitive", lazy=false},
+  {"rbong/vim-flog", lazy=false},
+  {"tpope/vim-surround", lazy=false},
+  {"tpope/vim-obsession", lazy=false},
+  {"preservim/tagbar", lazy=false},
+  {"ludovicchabant/vim-gutentags", lazy=false},
+
+  {"nvim-telescope/telescope-fzf-native.nvim", run="make", lazy=false},
 
   -- nvchad plugins
   { "NvChad/extensions", branch = "v2.0" },
