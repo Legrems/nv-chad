@@ -36,6 +36,9 @@ M.ui = {
     -- round and block will work for minimal theme only
     separator_style = "default",
     overriden_modules = nil,
+    fileInfo = function()
+        return require("nvchad_ui.statusline.default.fileInfo").run()
+    end
   },
 
   -- lazyload it when there are 1+ buffers

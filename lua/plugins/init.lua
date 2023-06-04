@@ -9,8 +9,16 @@ local default_plugins = {
   {"tpope/vim-obsession", lazy=false},
   {"preservim/tagbar", lazy=false},
   {"ludovicchabant/vim-gutentags", lazy=false},
+  {"emaniacs/vim-rest-console", lazy=false},
+  {
+    "sindrets/diffview.nvim",
+    lazy=false,
+    opts = function()
+      return require "plugins.configs.diffview"
+    end,
+  },
 
-  {"nvim-telescope/telescope-fzf-native.nvim", run="make", lazy=false},
+  {"nvim-telescope/telescope-fzf-native.nvim", build="make"},
 
   -- nvchad plugins
   { "NvChad/extensions", branch = "v2.0" },

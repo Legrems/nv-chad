@@ -25,7 +25,10 @@ M.general = {
     ["<C-k>"] = { "<C-w>k", "Window up" },
 
     ["<C-d>"] = { "<cmd> tab Git diff %<CR>", "Git diff this file" },
-    ["<C-p>"] = { "<cmd> tab Git diff<CR>", "Git diff global" },
+    ["<C-o>"] = { "<cmd> DiffviewFileHistory %<CR>", "Git history diff this file" },
+    -- ["<C-p>"] = { "<cmd> tab Git diff<CR>", "Git diff global" },
+    ["<C-p>"] = { "<cmd> DiffviewOpen<CR>", "Git diff global" },
+    ["<leader>gd"] = { "<cmd> DiffviewClose<CR>", "Git diff close" },
 
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
@@ -53,8 +56,8 @@ M.general = {
     ["<leader>p"] = {"<cmd> :r! cat /tmp/vimtmp<CR>", "Restore from the global tmp file"},
 
     -- new buffer
-    ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
-    ["<leader>ch"] = { "<cmd> NvCheatsheet <CR>", "Mapping cheatsheet" },
+    -- ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
+    -- ["<leader>ch"] = { "<cmd> NvCheatsheet <CR>", "Mapping cheatsheet" },
   },
 
   t = {
@@ -75,12 +78,22 @@ M.general = {
   },
 }
 
-M.gitstuffs = {
+M.customstuffs = {
 
     n = {
+        ["<Return>"] = { "o<ESC>", "Insert new line below" },
+        ["<BS>"] = { "O<ESC>", "Insert new line above" },
         ["<C-c>"] = { "<cmd> vertical topleft Git <bar> vertical resize 50<CR>", "Show Git status on a left pane" },
+        ["<F1>"] = { "<cmd> tabprevious<CR>", "Previous tab" },
+        ["<F2>"] = { "<cmd> tabnext<CR>", "Next tab" },
         ["<F3>"] = { "<cmd> Flog -all<CR>", "Show git tree" },
+        ["<F4>"] = { "<cmd> tab Git show -", "Git show N last commits" },
         ["<C-t>"] = { "<cmd> TagbarToggle<CR>", "Show tagbar" },
+        ["<leader>ra"] = { "<cmd> call VrcQuery()<CR>", "Call REST endpoint" },
+        ["<leader>dl"] = { "0d$", "Delete line from start" },
+        ["<leader>gp"] = { "<cmd> Git pull<CR>", "Git pull" },
+        ["<leader>gnb"] = { ":Git checkout -b ", "Checkout to a new branch" },
+        ["<leader>gri"] = { ":Git rebase -i HEAD~", "Git rebase interactive from HEAD" },
     }
 
 }
@@ -119,7 +132,7 @@ M.comment = {
 
   -- toggle comment in both modes
   n = {
-    ["<leader>/"] = {
+    ["<leader>ci"] = {
       function()
         require("Comment.api").toggle.linewise.current()
       end,
@@ -128,7 +141,7 @@ M.comment = {
   },
 
   v = {
-    ["<leader>/"] = {
+    ["<leader>ci"] = {
       "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
       "Toggle comment",
     },
@@ -288,8 +301,15 @@ M.telescope = {
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
 
     -- git
-    ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "Git commits" },
-    ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "Git status" },
+    --- Commits
+    ["<leader>gc"] = { "<cmd> lua require('custom.telescope').my_git_commits()<CR>", "Custom Git commits" },
+    --- Status
+    ["<leader>gss"] = { "<cmd> lua require('custom.telescope').my_git_status()<CR>", "Custom Git status" },
+    --- Stash
+    ["<leader>gsh"] = { "<cmd> Telescope git_stash<CR>", "Git stash" },
+    --- Branches
+    ["<leader>gbb"] = { "<cmd> Telescope git_branches<CR>", "Git branches" },
+    ["<leader>gbc"] = { "<cmd> lua require('custom.telescope').my_git_bcommits()<CR>", "Custom Git branchs commits" },
 
     -- pick a hidden term
     ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "Pick hidden term" },
@@ -298,6 +318,10 @@ M.telescope = {
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "Nvchad themes" },
 
     ["<leader>ma"] = { "<cmd> Telescope marks <CR>", "telescope bookmarks" },
+
+    -- History
+    ["<leader>ch"] = { "<cmd> Telescope command_history <CR>", "telescope commands history" },
+    ["<leader>/"] = { "<cmd> Telescope search_history <CR>", "telescope search history" },
   },
 }
 
@@ -458,7 +482,7 @@ M.gitsigns = {
       "Preview hunk",
     },
 
-    ["<leader>gb"] = {
+    ["<leader>bb"] = {
       function()
         package.loaded.gitsigns.blame_line()
       end,

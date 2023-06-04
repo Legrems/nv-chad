@@ -1,3 +1,36 @@
+local custom_actions = {}
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+
+function custom_actions._multiopen(prompt_bufnr, open_cmd)
+    local picker = action_state.get_current_picker(prompt_bufnr)
+    local selected_entry = action_state.get_selected_entry()
+    local num_selections = #picker:get_multi_selection()
+
+    if not num_selections or num_selections < 1 then
+        actions.add_selection(prompt_bufnr)
+    end
+
+    actions.send_selected_to_loclist(prompt_bufnr)
+    vim.cmd("lfdo " .. open_cmd)
+end
+
+function custom_actions.multi_selection_open(prompt_bufnr)
+    return custom_actions._multiopen(prompt_bufnr, "edit")
+end
+
+function custom_actions.multi_selection_vsplit(prompt_bufnr)
+    return custom_actions._multiopen(prompt_bufnr, "vsplit")
+end
+
+function custom_actions.multi_selection_split(prompt_bufnr)
+    return custom_actions._multiopen(prompt_bufnr, "split")
+end
+
+function custom_actions.multi_selection_vtab(prompt_bufnr)
+    return custom_actions._multiopen(prompt_bufnr, "tabe")
+end
+
 local options = {
   defaults = {
     vimgrep_arguments = {
@@ -48,8 +81,42 @@ local options = {
       n = { ["q"] = require("telescope.actions").close },
     },
   },
+  pickers = {
+    buffers = {
+      show_all_buffers = true,
+      sort_lastused = true,
+      mappings = {
+        n = {
+          ["d"] = "delete_buffer",
+        },
+        i = {
+          ["<C-d>"] = "delete_buffer",
+        }
+      }
+    },
+    find_files = {
+      mappings = {
+        i = {
+          ["<CR>"] = custom_actions.multi_selection_open,
+          ["<C-V>"] = custom_actions.multi_selection_vsplit,
+          ["<C-X>"] = custom_actions.multi_selection_split,
+          ["<C-T>"] = custom_actions.multi_selection_tab,
+          ["<C-SPACE>"] = actions.send_selected_to_loclist,
+        },
+        n = i,
+      }
+    }
+  },
 
-  extensions_list = { "themes", "terms" },
+  extensions_list = { "themes", "terms", "fzf" },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    }
+  }
 }
 
 return options
