@@ -24,8 +24,10 @@ M.general = {
     ["<C-j>"] = { "<C-w>j", "Window down" },
     ["<C-k>"] = { "<C-w>k", "Window up" },
 
-    ["<C-d>"] = { "<cmd> tab Git diff %<CR>", "Git diff this file" },
+    -- ["<C-d>"] = { "<cmd> tab Git diff %<CR>", "Git diff this file" },
+    ["<C-d>"] = { "<cmd> DiffviewOpen -- %<CR>", "Git diff this file" },
     ["<C-o>"] = { "<cmd> DiffviewFileHistory %<CR>", "Git history diff this file" },
+    ["<C-A-d>"] = { "<cmd> DiffviewClose<CR>", "Close git diff" },
     -- ["<C-p>"] = { "<cmd> tab Git diff<CR>", "Git diff global" },
     ["<C-p>"] = { "<cmd> DiffviewOpen<CR>", "Git diff global" },
     ["<leader>gd"] = { "<cmd> DiffviewClose<CR>", "Git diff close" },
