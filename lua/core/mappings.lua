@@ -30,6 +30,7 @@ M.general = {
     ["<C-A-d>"] = { "<cmd> DiffviewClose<CR>", "Close git diff" },
     -- ["<C-p>"] = { "<cmd> tab Git diff<CR>", "Git diff global" },
     ["<C-p>"] = { "<cmd> DiffviewOpen<CR>", "Git diff global" },
+    ["<A-p>"] = { ":DiffviewOpen HEAD~", "Show last N commits" },
     ["<leader>gd"] = { "<cmd> DiffviewClose<CR>", "Git diff close" },
 
     -- save
@@ -96,6 +97,8 @@ M.customstuffs = {
         ["<leader>gp"] = { "<cmd> Git pull<CR>", "Git pull" },
         ["<leader>gnb"] = { ":Git checkout -b ", "Checkout to a new branch" },
         ["<leader>gri"] = { ":Git rebase -i HEAD~", "Git rebase interactive from HEAD" },
+        ["<leader>mkd"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})<CR>", "Open markdown preview" },
+        ["<leader>mkc"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})<CR>", "Open markdown preview" },
     }
 
 }
@@ -293,6 +296,8 @@ M.telescope = {
   plugin = true,
 
   n = {
+    -- Resume
+    ["<A-f>"] = { "<cmd> Telescope resume <CR>", "Resume" },
     -- find
     ["<C-g>"] = { "<cmd> Telescope find_files <CR>", "Find files" },
     ["<C-x>"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },

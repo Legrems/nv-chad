@@ -3,6 +3,16 @@
 local default_plugins = {
 
   "nvim-lua/plenary.nvim",
+  "rebelot/kanagawa.nvim",
+  {
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    lazy = false,
+    setup = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
   {"tpope/vim-fugitive", lazy=false},
   {"rbong/vim-flog", lazy=false},
   {"tpope/vim-surround", lazy=false},
