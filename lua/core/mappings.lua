@@ -27,10 +27,10 @@ M.general = {
     -- ["<C-d>"] = { "<cmd> tab Git diff %<CR>", "Git diff this file" },
     ["<C-d>"] = { "<cmd> DiffviewOpen -- %<CR>", "Git diff this file" },
     ["<C-o>"] = { "<cmd> DiffviewFileHistory %<CR>", "Git history diff this file" },
-    ["<C-A-d>"] = { "<cmd> DiffviewClose<CR>", "Close git diff" },
+    ["<C-a-d>"] = { "<cmd> DiffviewClose<CR>", "Close git diff" },
     -- ["<C-p>"] = { "<cmd> tab Git diff<CR>", "Git diff global" },
     ["<C-p>"] = { "<cmd> DiffviewOpen<CR>", "Git diff global" },
-    ["<A-p>"] = { ":DiffviewOpen HEAD~", "Show last N commits" },
+    ["<a-p>"] = { ":DiffviewOpen HEAD~", "Show last N commits" },
     ["<leader>gd"] = { "<cmd> DiffviewClose<CR>", "Git diff close" },
 
     -- save
@@ -46,7 +46,7 @@ M.general = {
     -- ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
     -- ["<leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
 
-    -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
+    -- allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using <cmd> :map
     -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
@@ -76,31 +76,54 @@ M.general = {
     -- ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     -- ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     -- Don't copy the replaced text after pasting in visual mode
-    -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
+    -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#alternative_mapping_for_paste
     ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", opts = { silent = true } },
   },
 }
 
 M.customstuffs = {
 
-    n = {
-        ["<Return>"] = { "o<ESC>", "Insert new line below" },
-        ["<BS>"] = { "O<ESC>", "Insert new line above" },
-        ["<C-c>"] = { "<cmd> vertical topleft Git <bar> vertical resize 50<CR>", "Show Git status on a left pane" },
-        ["<F1>"] = { "<cmd> tabprevious<CR>", "Previous tab" },
-        ["<F2>"] = { "<cmd> tabnext<CR>", "Next tab" },
-        ["<F3>"] = { "<cmd> Flog -all<CR>", "Show git tree" },
-        ["<F4>"] = { "<cmd> tab Git show -", "Git show N last commits" },
-        ["<C-t>"] = { "<cmd> TagbarToggle<CR>", "Show tagbar" },
-        ["<leader>ra"] = { "<cmd> call VrcQuery()<CR>", "Call REST endpoint" },
-        ["<leader>dl"] = { "0d$", "Delete line from start" },
-        ["<leader>gp"] = { "<cmd> Git pull<CR>", "Git pull" },
-        ["<leader>gnb"] = { ":Git checkout -b ", "Checkout to a new branch" },
-        ["<leader>gri"] = { ":Git rebase -i HEAD~", "Git rebase interactive from HEAD" },
-        ["<leader>mkd"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})<CR>", "Open markdown preview" },
-        ["<leader>mkc"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})<CR>", "Open markdown preview" },
-    }
+  n = {
+    ["<Return>"] = { "o<ESC>", "Insert new line below" },
+    ["<BS>"] = { "O<ESC>", "Insert new line above" },
+    ["<C-c>"] = { "<cmd> vertical topleft Git <bar> vertical resize 50<CR>", "Show Git status on a left pane" },
+    ["<F1>"] = { "<cmd> tabprevious<CR>", "Previous tab" },
+    ["<F2>"] = { "<cmd> tabnext<CR>", "Next tab" },
+    ["<F3>"] = { "<cmd> Flog -all<CR>", "Show git tree" },
+    ["<F4>"] = { "<cmd> tab Git show -", "Git show N last commits" },
+    ["<C-t>"] = { "<cmd> TagbarToggle<CR>", "Show tagbar" },
+    ["<leader>ra"] = { "<cmd> call VrcQuery()<CR>", "Call REST endpoint" },
+    ["<leader>dl"] = { "0d$", "Delete line from start" },
+    ["<leader>gp"] = { "<cmd> Git pull<CR>", "Git pull" },
+    ["<leader>gnb"] = { ":Git checkout -b ", "Checkout to a new branch" },
+    ["<leader>gri"] = { ":Git rebase -i HEAD~", "Git rebase interactive from HEAD" },
+    ["<leader>mkd"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})<CR>", "Open markdown preview" },
+    ["<leader>mkc"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})<CR>", "Open markdown preview" },
 
+    ["n"] = { "nzz", "Next + auto center" },
+    ["N"] = { "Nzz", "Previous + auto center" },
+    ["("] = { "(zz", "Previous + auto center" },
+    [")"] = { ")zz", "Previous + auto center" },
+    ["{"] = { "{zz", "Previous + auto center" },
+    ["}"] = { "}zz", "Previous + auto center" },
+    ["[["] = { "[[zz", "Previous + auto center" },
+    ["]]"] = { "]]zz", "Previous + auto center" },
+
+    -- Mappings: TODO
+
+    -- "trim(system('git branch --show-current 2>/dev/null'))"
+    ["<leader>tt"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+  },
+  v = {
+    ["n"] = { "nzz", "Next + auto center" },
+    ["N"] = { "Nzz", "Previous + auto center" },
+    ["("] = { "(zz", "Previous + auto center" },
+    [")"] = { ")zz", "Previous + auto center" },
+    ["{"] = { "{zz", "Previous + auto center" },
+    ["}"] = { "}zz", "Previous + auto center" },
+    ["[["] = { "[[zz", "Previous + auto center" },
+    ["]]"] = { "]]zz", "Previous + auto center" },
+  },
 }
 
 M.tabufline = {
@@ -243,12 +266,12 @@ M.lspconfig = {
       "Goto next",
     },
 
-    ["<leader>q"] = {
-      function()
-        vim.diagnostic.setloclist()
-      end,
-      "Diagnostic setloclist",
-    },
+    -- ["<leader>q"] = {
+    --   function()
+    --     vim.diagnostic.setloclist()
+    --   end,
+    --   "Diagnostic setloclist",
+    -- },
 
     ["<leader>fm"] = {
       function()
@@ -261,7 +284,7 @@ M.lspconfig = {
       function()
         vim.lsp.buf.add_workspace_folder()
       end,
-      "Add workspace folder",
+      "add workspace folder",
     },
 
     ["<leader>wr"] = {
@@ -297,12 +320,22 @@ M.telescope = {
 
   n = {
     -- Resume
-    ["<A-f>"] = { "<cmd> Telescope resume <CR>", "Resume" },
+    ["<a-f>"] = { "<cmd> Telescope resume <CR>", "Resume" },
     -- find
     ["<C-g>"] = { "<cmd> Telescope find_files <CR>", "Find files" },
     ["<C-x>"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },
     ["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
     ["<C-b>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
+
+    ["<leader>fg"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with actual search value as prefix" },
+    ["<leader>ac"] = { ":execute 'vimgrep' input('Pattern >', getreg('/')) '**/*' <CR>", "add search term files in quickfix list" },
+    ["<leader>qc"] = { "<cmd> Telescope quickfix <CR>", "Show quickfix list" },
+    ["<leader>qr"] = { ":execute 'cdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', getreg('')) . '/g | update' <CR>", "Replace pattern in all quickfix list" },
+
+    ["<leader>ll"] = { "<cmd> Telescope loclist <CR>", "Show loclist list" },
+    ["<leader>ln"] = { ":lnext<CR>", "Jump to next in loclist" },
+    ["<leader>lp"] = { ":lprevious<CR>", "Jump to previous in loclist" },
+
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
@@ -337,21 +370,21 @@ M.nvterm = {
 
   t = {
     -- toggle in terminal mode
-    ["<A-i>"] = {
+    ["<a-i>"] = {
       function()
         require("nvterm.terminal").toggle "float"
       end,
       "Toggle floating term",
     },
 
-    ["<A-h>"] = {
+    ["<a-h>"] = {
       function()
         require("nvterm.terminal").toggle "horizontal"
       end,
       "Toggle horizontal term",
     },
 
-    ["<A-v>"] = {
+    ["<a-v>"] = {
       function()
         require("nvterm.terminal").toggle "vertical"
       end,
@@ -361,21 +394,21 @@ M.nvterm = {
 
   n = {
     -- toggle in normal mode
-    ["<A-i>"] = {
+    ["<a-i>"] = {
       function()
         require("nvterm.terminal").toggle "float"
       end,
       "Toggle floating term",
     },
 
-    ["<A-h>"] = {
+    ["<a-h>"] = {
       function()
         require("nvterm.terminal").toggle "horizontal"
       end,
       "Toggle horizontal term",
     },
 
-    ["<A-v>"] = {
+    ["<a-v>"] = {
       function()
         require("nvterm.terminal").toggle "vertical"
       end,
@@ -474,7 +507,7 @@ M.gitsigns = {
       opts = { expr = true },
     },
 
-    -- Actions
+    -- actions
     ["<leader>rh"] = {
       function()
         require("gitsigns").reset_hunk()
