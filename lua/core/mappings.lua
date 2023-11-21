@@ -70,6 +70,8 @@ M.general = {
   v = {
     -- ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     -- ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+    -- ["<"] = { "<gv", "Indent line" },
+    -- [">"] = { ">gv", "Indent line" },
   },
 
   x = {
@@ -133,14 +135,14 @@ M.tabufline = {
     -- cycle through buffers
     ["<tab>"] = {
       function()
-        require("nvchad_ui.tabufline").tabuflineNext()
+        require("nvchad.tabufline").tabuflineNext()
       end,
       "Goto next buffer",
     },
 
     ["<S-tab>"] = {
       function()
-        require("nvchad_ui.tabufline").tabuflinePrev()
+        require("nvchad.tabufline").tabuflinePrev()
       end,
       "Goto prev buffer",
     },
@@ -148,7 +150,7 @@ M.tabufline = {
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
       function()
-        require("nvchad_ui.tabufline").close_buffer()
+        require("nvchad.tabufline").close_buffer()
       end,
       "Close buffer",
     },
@@ -226,7 +228,7 @@ M.lspconfig = {
 
     ["<leader>ra"] = {
       function()
-        require("nvchad_ui.renamer").open()
+        require("nvchad.renamer").open()
       end,
       "LSP rename",
     },
@@ -245,7 +247,7 @@ M.lspconfig = {
       "LSP references",
     },
 
-    ["<leader>f"] = {
+    ["<leader>lf"] = {
       function()
         vim.diagnostic.open_float { border = "rounded" }
       end,
@@ -254,14 +256,14 @@ M.lspconfig = {
 
     ["[d"] = {
       function()
-        vim.diagnostic.goto_prev({ float = { border = "rounded" }})
+        vim.diagnostic.goto_prev { float = { border = "rounded" } }
       end,
       "Goto prev",
     },
 
     ["]d"] = {
       function()
-        vim.diagnostic.goto_next({ float = { border = "rounded" }})
+        vim.diagnostic.goto_next { float = { border = "rounded" } }
       end,
       "Goto next",
     },
@@ -272,13 +274,6 @@ M.lspconfig = {
     --   end,
     --   "Diagnostic setloclist",
     -- },
-
-    ["<leader>fm"] = {
-      function()
-        vim.lsp.buf.format { async = true }
-      end,
-      "LSP formatting",
-    },
 
     ["<leader>wa"] = {
       function()
@@ -299,6 +294,15 @@ M.lspconfig = {
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,
       "List workspace folders",
+    },
+  },
+
+  v = {
+    ["<leader>ca"] = {
+      function()
+        vim.lsp.buf.code_action()
+      end,
+      "LSP code action",
     },
   },
 }
