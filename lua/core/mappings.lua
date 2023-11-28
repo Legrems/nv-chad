@@ -112,7 +112,14 @@ M.customstuffs = {
     -- Mappings: TODO
 
     -- "trim(system('git branch --show-current 2>/dev/null'))"
-    ["<leader>tt"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+    -- ["<leader>tt"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+    ["<leader>tt"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+
+    ["<leader>ww"] = { ":lua require('nvim-window').pick()<CR>", "Pick window to goto" },
+    ["<leader>wm"] = { ":WinShift<CR>", "Enter move window mode" },
+    ["<leader>ws"] = { ":WinShift swap<CR>", "Swap window, with selection" },
+
+    ["<leader>gg"] = { ":LazyGit<CR>", "Open lazygit" },
   },
   v = {
     ["n"] = { "nzz", "Next + auto center" },
@@ -328,9 +335,15 @@ M.telescope = {
     ["<C-b>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
 
     ["<leader>fg"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with actual search value as prefix" },
+    ["<leader>gf"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with actual search value as prefix" },
     ["<leader>ac"] = { ":execute 'vimgrep' input('Pattern >', getreg('/')) '**/*' <CR>", "add search term files in quickfix list" },
-    ["<leader>qc"] = { "<cmd> Telescope quickfix <CR>", "Show quickfix list" },
-    ["<leader>qr"] = { ":execute 'cdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', getreg('')) . '/g | update' <CR>", "Replace pattern in all quickfix list" },
+    -- ["<leader>qr"] = { ":execute 'cdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', getreg('')) . '/g | update' <CR>", "Replace pattern in all quickfix list" },
+    ["<leader>qr"] = { ":cdo '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in all quickfix list" },
+    ["<leader>br"] = { ":execute '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in current buffer" },
+
+    ["<leader>ql"] = { "<cmd> Telescope quickfix <CR>", "Show quickfix list" },
+    ["<leader>qn"] = { ":cnext<CR>", "Jump to next in quickfix list" },
+    ["<leader>qp"] = { ":cprevious<CR>", "Jump to previous in quickfix list" },
 
     ["<leader>ll"] = { "<cmd> Telescope loclist <CR>", "Show loclist list" },
     ["<leader>ln"] = { ":lnext<CR>", "Jump to next in loclist" },
@@ -339,6 +352,8 @@ M.telescope = {
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
+
+    ["<leader>wl"] = { "<cmd> Telescope workspaces <CR>", "Find workspaces" },
 
     -- git
     --- Commits
@@ -362,6 +377,10 @@ M.telescope = {
     -- History
     ["<leader>ch"] = { "<cmd> Telescope command_history <CR>", "telescope commands history" },
     ["<leader>/"] = { "<cmd> Telescope search_history <CR>", "telescope search history" },
+
+    -- Diaglist: LSP diagnostics in quick/loc list
+    ["<leader>dw"] = { "<cmd>lua require('diaglist').open_all_diagnostics()<CR>", "Open all open buffers diagnostics in quickfix list" },
+    ["<leader>d0"] = { "<cmd>lua require('diaglist').open_buffer_diagnostics()<CR>", "Open current buffer diagnostics in loclist list" },
   },
 }
 

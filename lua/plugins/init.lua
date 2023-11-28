@@ -236,6 +236,97 @@ local default_plugins = {
     end,
   },
 
+  -- Save and load macro / register
+  {
+    "desdic/macrothis.nvim",
+    opts = {},
+    keys = {
+      { "<Leader>kkd", function() require('macrothis').delete() end, desc = "Delete" },
+      { "<Leader>kke", function() require('macrothis').edit() end, desc = "Edit" },
+      { "<Leader>kkl", function() require('macrothis').load() end, desc = "Load" },
+      { "<Leader>kkn", function() require('macrothis').rename() end, desc = "Rename" },
+      { "<Leader>kkq", function() require('macrothis').quickfix() end, desc = "Run macro on all files in quickfix" },
+      { "<Leader>kkr", function() require('macrothis').run() end, desc = "Run macro" },
+      { "<Leader>kks", function() require('macrothis').save() end, desc = "Save" },
+      { "<Leader>kkx", function() require('macrothis').register() end, desc = "Edit register" },
+      { "<Leader>kkp", function() require('macrothis').copy_register_printable() end, desc = "Copy register as printable" },
+      { "<Leader>kkm", function() require('macrothis').copy_macro_printable() end, desc = "Copy macro as printable" },
+    }
+  },
+
+  {
+    "onsails/diaglist.nvim",
+    lazy=false,
+    debug=false,
+  },
+
+  {
+    "natecraddock/workspaces.nvim",
+    lazy=false,
+
+    config = function()
+      require("workspaces").setup({
+        hooks = {
+          open = {"Telescope find_files"},
+        }
+      })
+    end,
+  },
+
+  {
+    "mangelozzi/rgflow.nvim",
+    lazy=false,
+
+    config = function()
+      require("rgflow").setup({
+        -- Set the default rip grep flags and options for when running a search via
+        -- RgFlow. Once changed via the UI, the previous search flags are used for 
+        -- each subsequent search (until Neovim restarts).
+        cmd_flags = "--smart-case --fixed-strings --ignore --max-columns 200",
+
+        -- Mappings to trigger RgFlow functions
+        default_trigger_mappings = true,
+        -- These mappings are only active when the RgFlow UI (panel) is open
+        default_ui_mappings = true,
+        -- QuickFix window only mapping
+        default_quickfix_mappings = true,
+      })
+    end,
+  },
+
+  {
+    "yorickpeterse/nvim-window",
+    lazy=false,
+    config = function()
+      require('nvim-window').setup({
+        normal_hl = 'Normal',
+        hint_hl = 'Bold',
+        border = 'single'
+      })
+    end,
+  },
+
+  {
+    "sindrets/winshift.nvim",
+    lazy=false,
+  },
+
+  {
+    "kdheepak/lazygit.nvim",
+    lazy=false,
+    config = function()
+      require("lazy").setup({
+        {
+          "kdheepak/lazygit.nvim",
+          -- optional for floating window border decoration
+          dependencies = {
+            "nvim-lua/plenary.nvim",
+          },
+        },
+      })
+    end,
+  },
+
   -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
@@ -277,6 +368,7 @@ local default_plugins = {
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
+    lazy=false,
     keys = { "<leader>", '"', "'", "`", "c", "v" },
     init = function()
       require("core.utils").load_mappings "whichkey"

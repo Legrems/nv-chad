@@ -18,4 +18,6 @@ end
 
 dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
+vim.api.nvim_command "packadd cfilter"
+vim.api.nvim_command "packadd justify"
 require "plugins"
