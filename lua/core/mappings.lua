@@ -95,6 +95,7 @@ M.customstuffs = {
     ["<leader>ra"] = { "<cmd> call VrcQuery()<CR>", "Call REST endpoint" },
     ["<leader>dl"] = { "0d$", "Delete line from start" },
     ["<leader>gp"] = { "<cmd> Git pull<CR>", "Git pull" },
+    ["<leader>ga"] = { ":Git commit -a --amend --no-edit --no-verify", "Git commit -a --amend --no-edit --no-verify" },
     ["<leader>gnb"] = { ":Git checkout -b ", "Checkout to a new branch" },
     ["<leader>gri"] = { ":Git rebase -i HEAD~", "Git rebase interactive from HEAD" },
     ["<leader>mkd"] = { "<cmd>lua vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})<CR>", "Open markdown preview" },
@@ -112,8 +113,8 @@ M.customstuffs = {
     -- Mappings: TODO
 
     -- "trim(system('git branch --show-current 2>/dev/null'))"
-    -- ["<leader>tt"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
-    ["<leader>tt"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+    -- ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+    ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
 
     ["<leader>ww"] = { ":lua require('nvim-window').pick()<CR>", "Pick window to goto" },
     ["<leader>wm"] = { ":WinShift<CR>", "Enter move window mode" },
@@ -381,6 +382,8 @@ M.telescope = {
     -- Diaglist: LSP diagnostics in quick/loc list
     ["<leader>dw"] = { "<cmd>lua require('diaglist').open_all_diagnostics()<CR>", "Open all open buffers diagnostics in quickfix list" },
     ["<leader>d0"] = { "<cmd>lua require('diaglist').open_buffer_diagnostics()<CR>", "Open current buffer diagnostics in loclist list" },
+
+    ["<leader>;"] = { "<cmd> Telescope <CR>", "Open Telescope" },
   },
 }
 

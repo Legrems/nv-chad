@@ -403,6 +403,17 @@ local default_plugins = {
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" }
   },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return require "plugins.configs.noice"
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      -- "rcarriga/nvim-notify",
+    },
+  }
 }
 
 local config = require("core.utils").load_config()
