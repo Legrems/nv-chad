@@ -119,6 +119,16 @@ local default_plugins = {
     end,
   },
 
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    lazy = false,
+    config = function()
+      require("nvim-treesitter.configs").setup(
+        require("plugins.configs.treesitter_textobjects")
+      )
+    end,
+  },
+
   -- git stuff
   {
     "lewis6991/gitsigns.nvim",
@@ -261,6 +271,16 @@ local default_plugins = {
   },
 
   {
+    "anuvyklack/hydra.nvim",
+    lazy=false,
+  },
+
+  {
+    "gioele/vim-autoswap",
+    lazy=false,
+  },
+
+  {
     "natecraddock/workspaces.nvim",
     lazy=false,
 
@@ -377,6 +397,11 @@ local default_plugins = {
       dofile(vim.g.base46_cache .. "whichkey")
       require("which-key").setup(opts)
     end,
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" }
   },
 }
 
