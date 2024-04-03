@@ -2,6 +2,7 @@
 
 local previewers = require('telescope.previewers')
 local builtin = require('telescope.builtin')
+
 local E = {}
 
 local delta = previewers.new_termopen_previewer {
