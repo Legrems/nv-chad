@@ -129,8 +129,8 @@ M.customstuffs = {
     -- Mappings: TODO
 
     -- "trim(system('git branch --show-current 2>/dev/null'))"
-    -- ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
-    ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>", "Add TODO comment + add to quickfix list" },
+    -- ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to qflist" },
+    ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>", "Add TODO comment + add to qflist" },
 
     ["<leader>ww"] = { ":lua require('nvim-window').pick()<CR>", "Pick window to goto" },
     ["<leader>wm"] = { ":WinShift<CR>", "Enter move window mode" },
@@ -353,24 +353,47 @@ M.telescope = {
     ["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
     ["<C-b>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
 
-    ["<leader>fg"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with actual search value as prefix" },
-    ["<leader>gf"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with actual search value as prefix" },
-    ["<leader>ac"] = { ":execute 'vimgrep' input('Pattern >', getreg('/')) '**/*' <CR>", "add search term files in quickfix list" },
-    -- ["<leader>qr"] = { ":execute 'cdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', getreg('')) . '/g | update' <CR>", "Replace pattern in all quickfix list" },
-    ["<leader>qr"] = { ":cdo '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in all quickfix list" },
-    ["<leader>br"] = { ":execute '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in current buffer" },
+    ["<leader>fg/"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with search term" },
+    ["<leader>fgw"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.expand('<cword>')}) <CR>", "Live grep with current word" },
 
-    ["<leader>ql"] = { "<cmd> Telescope quickfix <CR>", "Show quickfix list" },
-    ["<leader>qn"] = { ":cnext<CR>", "Jump to next in quickfix list" },
-    ["<leader>qp"] = { ":cprevious<CR>", "Jump to previous in quickfix list" },
+    ["<leader>gf/"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.getreg('/')}) <CR>", "Find files with search term" },
+    ["<leader>gfw"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.expand('<cword>')}) <CR>", "Find files with current word" },
 
-    ["<leader>ll"] = { "<cmd> Telescope loclist <CR>", "Show loclist list" },
+    ["<leader>br<CR>"] = { ":execute '%s/' . input('Search term >') . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in current buffer" },
+    ["<leader>br/"] = { ":execute '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace search term pattern in current buffer" },
+    ["<leader>brw"] = { ":execute '%s/' . input('Search term >', expand('<cword>')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace current word pattern in current buffer" },
+
+    -- Quickfix list
+    ["<leader>ql"] = { "<cmd> Telescope quickfix <CR>", "Show qflist" },
+    ["<leader>qn"] = { ":cnext<CR>", "Jump to next in qflist" },
+    ["]q"] = { ":cnext<CR>", "Jump to next in qflist" },
+    ["<leader>qp"] = { ":cprevious<CR>", "Jump to previous in qflist" },
+    ["[q"] = { ":cprevious<CR>", "Jump to previous in qflist" },
+    ["<leader>qc"] = { ":call setqflist([]) | cclose<CR>", "Clear qflist" },
+
+    -- Quickfix replace all
+    ["<leader>qr<CR>"] = { ":execute 'cfdo' '%s/' . input('Search term >') . '/' . input('Replace by >') . '/gI | update' <CR>", "Replace pattern in all qflist" },
+    ["<leader>qr/"] = { ":execute 'cfdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >') . '/gI | update' <CR>", "Replace search term in all qflist" },
+    ["<leader>qrw"] = { ":execute 'cfdo' '%s/' . input('Search term >', expand('<cword>')) . '/' . input('Replace by >') . '/gI | update' <CR>", "Replace current word in all qflist" },
+
+    -- Quickfix "search"
+    ["<leader>qs<CR>"] = { ":execute 'vimgrep' '/' . input('Pattern >') . '\\C/' '**/*' <CR>", "Add <> files in qflist" },
+    ["<leader>qs/"] = { ":execute 'vimgrep' '/' . input('Pattern >', getreg('/')) . '\\C/' '**/*' <CR>", "Add search term files in qflist" },
+    ["<leader>qsw"] = { ":execute 'vimgrep' '/' . input('Pattern >', expand('<cword>')) . '\\C/' '**/*' <CR>", "Add current word files in qflist" },
+
+    -- Loclist list
+    ["<leader>ll"] = { "<cmd> Telescope loclist <CR>", "Show loclist" },
     ["<leader>ln"] = { ":lnext<CR>", "Jump to next in loclist" },
+    ["]l"] = { ":lnext<CR>", "Jump to next in loclist" },
     ["<leader>lp"] = { ":lprevious<CR>", "Jump to previous in loclist" },
+    ["[l"] = { ":lprevious<CR>", "Jump to previous in loclist" },
+    ["<leader>lc"] = { ":call setloclist([]) | lclose<CR>", "Clear loclist" },
 
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
-    ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
+    ["<leader>fx<CR>"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
+    ["<leader>fx/"] = { "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find({default_text=vim.fn.getreg('/')}) <CR>", "Fuzzy find in current buffer with actual search" },
+    ["<leader>fxw"] = { "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find({default_text=vim.fn.expand('<cword>')}) <CR>", "Fuzzy find in current buffer with current word" },
 
     ["<leader>wl"] = { "<cmd> Telescope workspaces <CR>", "Find workspaces" },
 
@@ -398,8 +421,8 @@ M.telescope = {
     ["<leader>/"] = { "<cmd> Telescope search_history <CR>", "telescope search history" },
 
     -- Diaglist: LSP diagnostics in quick/loc list
-    ["<leader>dw"] = { "<cmd>lua require('diaglist').open_all_diagnostics()<CR>", "Open all open buffers diagnostics in quickfix list" },
-    ["<leader>d0"] = { "<cmd>lua require('diaglist').open_buffer_diagnostics()<CR>", "Open current buffer diagnostics in loclist list" },
+    ["<leader>dw"] = { "<cmd>lua require('diaglist').open_all_diagnostics()<CR>", "Open all open buffers diagnostics in qflist" },
+    ["<leader>d0"] = { "<cmd>lua require('diaglist').open_buffer_diagnostics()<CR>", "Open current buffer diagnostics in loclist" },
 
     ["<leader>;"] = { "<cmd> Telescope <CR>", "Open Telescope" },
   },
