@@ -20,6 +20,26 @@ local default_plugins = {
   {"preservim/tagbar", lazy=false},
   {"ludovicchabant/vim-gutentags", lazy=false},
   {"emaniacs/vim-rest-console", lazy=false},
+  {"harrisoncramer/gitlab.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "stevearc/dressing.nvim", -- Recommended but not required. Better UI for pickers.
+      "nvim-tree/nvim-web-devicons" -- Recommended but not required. Icons in discussion tree.
+    },
+    enabled = true,
+    lazy = false,
+    build = function()
+      require("gitlab.server").build(true)
+    end, -- Builds the Go binary
+    opts = function()
+      return require "plugins.configs.gitlab"
+    end,
+    config = function(_, opts)
+      require("gitlab").setup(opts)
+    end,
+  },
   {
     "sindrets/diffview.nvim",
     lazy=false,

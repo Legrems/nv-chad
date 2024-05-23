@@ -158,10 +158,20 @@ local options = {
       mappings = {
         i = {
           ["<CR>"] = custom_actions.multi_selection_open,
-          ["<C-V>"] = custom_actions.multi_selection_vsplit,
+          ["<C-v>"] = custom_actions.multi_selection_vsplit,
           ["<C-X>"] = custom_actions.multi_selection_split,
           ["<C-T>"] = custom_actions.multi_selection_tab,
-          ["<C-SPACE>"] = actions.send_selected_to_qflist,
+          ["<C-Space>"] = actions.smart_send_to_qflist,
+          ["<C-L>"] = actions.smart_send_to_loclist,
+        },
+        n = i,
+      }
+    },
+    live_grep = {
+      mappings = {
+        i = {
+          ["<C-Space>"] = actions.smart_send_to_qflist,
+          ["<C-L>"] = actions.smart_send_to_loclist,
         },
         n = i,
       }

@@ -137,6 +137,41 @@ M.customstuffs = {
     ["<leader>ws"] = { ":WinShift swap<CR>", "Swap window, with selection" },
 
     ["<leader>gg"] = { ":LazyGit<CR>", "Open lazygit" },
+
+    ["gf"] = { ":call search('[A-Z]', 'W')<CR>", "Go to next uppercase" },
+    ["fg"] = { ":call search('[A-Z]', 'bW')<CR>", "Go to last uppercase" },
+
+    ["glb"] = { ":lua require('gitlab').choose_merge_request()<CR>", "Gitlab: Choose merge request" },
+    ["glr"] = { ":lua require('gitlab').review()<CR>", "Gitlab: review" },
+    ["gls"] = { ":lua require('gitlab').summary()<CR>", "Gitlab: summary" },
+    ["glo"] = { ":lua require('gitlab').open_in_browser()<CR>", "Gitlab: open in browser" },
+    ["glu"] = { ":lua require('gitlab').copy_mr_url()<CR>", "Gitlab: open in browser" },
+    ["glO"] = { ":lua require('gitlab').create_mr()<CR>", "Gitlab: create MR" },
+    ["glaa"] = { ":lua require('gitlab').add_assignee()<CR>", "Gitlab: add_assignee" },
+
+-- vim.keymap.set("n", "glb", gitlab.choose_merge_request)
+-- vim.keymap.set("n", "glr", gitlab.review)
+-- vim.keymap.set("n", "gls", gitlab.summary)
+-- vim.keymap.set("n", "glA", gitlab.approve)
+-- vim.keymap.set("n", "glR", gitlab.revoke)
+-- vim.keymap.set("n", "glc", gitlab.create_comment)
+-- vim.keymap.set("v", "glc", gitlab.create_multiline_comment)
+-- vim.keymap.set("v", "glC", gitlab.create_comment_suggestion)
+-- vim.keymap.set("n", "glO", gitlab.create_mr)
+-- vim.keymap.set("n", "glm", gitlab.move_to_discussion_tree_from_diagnostic)
+-- vim.keymap.set("n", "gln", gitlab.create_note)
+-- vim.keymap.set("n", "gld", gitlab.toggle_discussions)
+-- vim.keymap.set("n", "glaa", gitlab.add_assignee)
+-- vim.keymap.set("n", "glad", gitlab.delete_assignee)
+-- vim.keymap.set("n", "glla", gitlab.add_label)
+-- vim.keymap.set("n", "glld", gitlab.delete_label)
+-- vim.keymap.set("n", "glra", gitlab.add_reviewer)
+-- vim.keymap.set("n", "glrd", gitlab.delete_reviewer)
+-- vim.keymap.set("n", "glp", gitlab.pipeline)
+-- vim.keymap.set("n", "glM", gitlab.merge)
+-- vim.keymap.set("n", "glu", gitlab.copy_mr_url)
+-- vim.keymap.set("n", "glP", gitlab.publish_all_drafts)
+
   },
   v = {
     ["n"] = { "nzz", "Next + auto center" },
@@ -353,11 +388,16 @@ M.telescope = {
     ["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
     ["<C-b>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
 
+    ["<leader>ff"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text='<<<<<<< HEAD'}) <CR>", "Search for git conflicts" },
+
+    ["<leader>fg<CR>"] = { "<cmd> lua require('telescope.builtin').live_grep({}) <CR>", "Live grep" },
     ["<leader>fg/"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with search term" },
     ["<leader>fgw"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.expand('<cword>')}) <CR>", "Live grep with current word" },
 
+    ["<leader>gf<CR>"] = { "<cmd> lua require('telescope.builtin').find_files({}) <CR>", "Find files" },
     ["<leader>gf/"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.getreg('/')}) <CR>", "Find files with search term" },
     ["<leader>gfw"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.expand('<cword>')}) <CR>", "Find files with current word" },
+
 
     ["<leader>br<CR>"] = { ":execute '%s/' . input('Search term >') . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in current buffer" },
     ["<leader>br/"] = { ":execute '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace search term pattern in current buffer" },
