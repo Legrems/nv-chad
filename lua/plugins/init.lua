@@ -20,6 +20,46 @@ local default_plugins = {
   {"preservim/tagbar", lazy=false},
   {"ludovicchabant/vim-gutentags", lazy=false},
   {"emaniacs/vim-rest-console", lazy=false},
+  {"git@github.com:mfussenegger/nvim-dap.git", lazy=false},
+  {
+    "git@github.com:rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
+    },
+    lazy=false,
+  },
+  {
+    "git@github.com:mfussenegger/nvim-dap-python.git",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+    },
+    lazy=false,
+    init = function()
+      require("dap-python").setup("python")
+      -- Setup nvim-dap-ui also
+      require("dapui").setup()
+    end,
+    config = function(_, opts)
+      local dap = require('dap')
+      vim.api.nvim_set_hl(0, "dark-orange", { bg="#402c16"})
+      vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
+      vim.fn.sign_define('DapStopped', {text='', texthl='', linehl='dark-orange', numhl=''})
+      dap.defaults.fallback.terminal_win_cmd = 'tabnew'
+      dap.defaults.fallback.focus_terminal = true
+    end,
+  },
+  {
+    "Weissle/persistent-breakpoints.nvim",
+    lazy=false,
+    config = function(_, opts)
+      require('persistent-breakpoints').setup{
+        load_breakpoints_event = { "BufReadPost" }
+      }
+    end,
+  },
+  {"nvim-telescope/telescope-dap.nvim", lazy=false},
   {"harrisoncramer/gitlab.nvim",
     dependencies = {
       "MunifTanjim/nui.nvim",

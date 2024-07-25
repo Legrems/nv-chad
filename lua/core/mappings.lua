@@ -56,8 +56,25 @@ M.general = {
     -- ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     -- ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
 
-    ["<leader>y"] = {"<cmd> :w! /tmp/vimtmp<CR>", "Save into a global tmp file"},
-    ["<leader>p"] = {"<cmd> :r! cat /tmp/vimtmp<CR>", "Restore from the global tmp file"},
+    -- ["<leader>y"] = {"<cmd> :w! /tmp/vimtmp<CR>", "Save into a global tmp file"},
+    -- ["<leader>p"] = {"<cmd> :r! cat /tmp/vimtmp<CR>", "Restore from the global tmp file"},
+
+    ["<leader>dgg"] = {":lua require('dap').continue() <CR>", "Continue debu[g]ging"},
+    ["<leader>dg<CR>"] = {":lua require('dapui').toggle() <CR>", "Toggle DAP ui"},
+    ["<leader>dgw"] = {":lua require('dapui').eval() <CR>", "Open floating windows about current [w]ord"},
+    ["<leader>dgb"] = {":lua require('dap').toggle_breakpoint() <CR>", "Toggle [b]reakpoint"},
+    ["<leader>dgf"] = {":lua require('dap-python').test_method() <CR>", "Debug [f]unction"},
+    ["<leader>dgo"] = {":lua require('dap').step_over() <CR>", "DAP step [o]ver method"},
+    ["<leader>dgt"] = {":lua require('dap').step_into() <CR>", "DAP step in[t]o method"},
+    ["<leader>dgp"] = {":lua require('dap').step_back() <CR>", "DAP step back ([p]revious)"},
+    ["<leader>dgs"] = {
+      function()
+        local widgets = require("dap.ui.widgets")
+        local sidebar = widgets.sidebar(widgets.scopes)
+        sidebar.open({widgth = '50%'})
+      end,
+      "DAP Show debugged [s]copes",
+    },
 
     -- new buffer
     -- ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
@@ -80,6 +97,9 @@ M.general = {
     -- ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["<"] = { "<gv", "Indent line" },
     [">"] = { ">gv", "Indent line" },
+
+    ["<leader>dgd"] = {":lua require('dap-python').debug_selection()", "DAP debug selection"},
+    ["<leader>dgw"] = {":lua require('dap-python').eval()", "DAP eval selection"},
   },
 
   x = {
@@ -437,6 +457,7 @@ M.telescope = {
 
     ["<leader>wl"] = { "<cmd> Telescope workspaces <CR>", "Find workspaces" },
 
+    ["<leader>gm"] = { "<cmd> lua require('custom.telescope').cpickers()<CR>", "Commonly used commands" },
     -- git
     --- Commits
     ["<leader>gc"] = { "<cmd> lua require('custom.telescope').my_git_commits()<CR>", "Custom Git commits" },
@@ -640,5 +661,17 @@ M.gitsigns = {
     },
   },
 }
+
+local all_modes = {
+  -- Override all delete/yank/paste to use the registers M by default
+  ["y"] = { "\"my", "Yank", { remap=false } },
+  ["p"] = { "\"mp", "Paste", { remap=false } },
+  ["d"] = { "\"md", "Delete", { remap=false } },
+
+  ["<leader>y"] = { "\"+y", "Yank into system register", { remap=false } },
+  ["<leader>p"] = { "\"+p", "Paste from system register", { remap=false } },
+}
+
+M.general[{"n", "v"}] = all_modes
 
 return M
