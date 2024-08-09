@@ -59,19 +59,19 @@ M.general = {
     -- ["<leader>y"] = {"<cmd> :w! /tmp/vimtmp<CR>", "Save into a global tmp file"},
     -- ["<leader>p"] = {"<cmd> :r! cat /tmp/vimtmp<CR>", "Restore from the global tmp file"},
 
-    ["<leader>dgg"] = {":lua require('dap').continue() <CR>", "Continue debu[g]ging"},
-    ["<leader>dg<CR>"] = {":lua require('dapui').toggle() <CR>", "Toggle DAP ui"},
-    ["<leader>dgw"] = {":lua require('dapui').eval() <CR>", "Open floating windows about current [w]ord"},
-    ["<leader>dgb"] = {":lua require('dap').toggle_breakpoint() <CR>", "Toggle [b]reakpoint"},
-    ["<leader>dgf"] = {":lua require('dap-python').test_method() <CR>", "Debug [f]unction"},
-    ["<leader>dgo"] = {":lua require('dap').step_over() <CR>", "DAP step [o]ver method"},
-    ["<leader>dgt"] = {":lua require('dap').step_into() <CR>", "DAP step in[t]o method"},
-    ["<leader>dgp"] = {":lua require('dap').step_back() <CR>", "DAP step back ([p]revious)"},
+    ["<leader>dgg"] = { ":lua require('dap').continue() <CR>", "Continue debu[g]ging" },
+    ["<leader>dg<CR>"] = { ":lua require('dapui').toggle() <CR>", "Toggle DAP ui" },
+    ["<leader>dgw"] = { ":lua require('dapui').eval() <CR>", "Open floating windows about current [w]ord" },
+    ["<leader>dgb"] = { ":lua require('dap').toggle_breakpoint() <CR>", "Toggle [b]reakpoint" },
+    ["<leader>dgf"] = { ":lua require('dap-python').test_method() <CR>", "Debug [f]unction" },
+    ["<leader>dgo"] = { ":lua require('dap').step_over() <CR>", "DAP step [o]ver method" },
+    ["<leader>dgt"] = { ":lua require('dap').step_into() <CR>", "DAP step in[t]o method" },
+    ["<leader>dgp"] = { ":lua require('dap').step_back() <CR>", "DAP step back ([p]revious)" },
     ["<leader>dgs"] = {
       function()
-        local widgets = require("dap.ui.widgets")
+        local widgets = require "dap.ui.widgets"
         local sidebar = widgets.sidebar(widgets.scopes)
-        sidebar.open({widgth = '50%'})
+        sidebar.open { widgth = "50%" }
       end,
       "DAP Show debugged [s]copes",
     },
@@ -98,8 +98,8 @@ M.general = {
     ["<"] = { "<gv", "Indent line" },
     [">"] = { ">gv", "Indent line" },
 
-    ["<leader>dgd"] = {":lua require('dap-python').debug_selection()", "DAP debug selection"},
-    ["<leader>dgw"] = {":lua require('dap-python').eval()", "DAP eval selection"},
+    ["<leader>dgd"] = { ":lua require('dap-python').debug_selection()", "DAP debug selection" },
+    ["<leader>dgw"] = { ":lua require('dap-python').eval()", "DAP eval selection" },
   },
 
   x = {
@@ -150,7 +150,10 @@ M.customstuffs = {
 
     -- "trim(system('git branch --show-current 2>/dev/null'))"
     -- ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO-' . trim(system('git branch --show-current 2>/dev/null')) . ': ' . input('Comment >'))<CR>", "Add TODO comment + add to qflist" },
-    ["<leader>ct"] = { ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>", "Add TODO comment + add to qflist" },
+    ["<leader>ct"] = {
+      ":call append(line('.') - 1, repeat(' ', indent('.')) . '# TODO: ' . input('Comment >'))<CR>",
+      "Add TODO comment + add to qflist",
+    },
 
     ["<leader>ww"] = { ":lua require('nvim-window').pick()<CR>", "Pick window to goto" },
     ["<leader>wm"] = { ":WinShift<CR>", "Enter move window mode" },
@@ -169,29 +172,28 @@ M.customstuffs = {
     ["glO"] = { ":lua require('gitlab').create_mr()<CR>", "Gitlab: create MR" },
     ["glaa"] = { ":lua require('gitlab').add_assignee()<CR>", "Gitlab: add_assignee" },
 
--- vim.keymap.set("n", "glb", gitlab.choose_merge_request)
--- vim.keymap.set("n", "glr", gitlab.review)
--- vim.keymap.set("n", "gls", gitlab.summary)
--- vim.keymap.set("n", "glA", gitlab.approve)
--- vim.keymap.set("n", "glR", gitlab.revoke)
--- vim.keymap.set("n", "glc", gitlab.create_comment)
--- vim.keymap.set("v", "glc", gitlab.create_multiline_comment)
--- vim.keymap.set("v", "glC", gitlab.create_comment_suggestion)
--- vim.keymap.set("n", "glO", gitlab.create_mr)
--- vim.keymap.set("n", "glm", gitlab.move_to_discussion_tree_from_diagnostic)
--- vim.keymap.set("n", "gln", gitlab.create_note)
--- vim.keymap.set("n", "gld", gitlab.toggle_discussions)
--- vim.keymap.set("n", "glaa", gitlab.add_assignee)
--- vim.keymap.set("n", "glad", gitlab.delete_assignee)
--- vim.keymap.set("n", "glla", gitlab.add_label)
--- vim.keymap.set("n", "glld", gitlab.delete_label)
--- vim.keymap.set("n", "glra", gitlab.add_reviewer)
--- vim.keymap.set("n", "glrd", gitlab.delete_reviewer)
--- vim.keymap.set("n", "glp", gitlab.pipeline)
--- vim.keymap.set("n", "glM", gitlab.merge)
--- vim.keymap.set("n", "glu", gitlab.copy_mr_url)
--- vim.keymap.set("n", "glP", gitlab.publish_all_drafts)
-
+    -- vim.keymap.set("n", "glb", gitlab.choose_merge_request)
+    -- vim.keymap.set("n", "glr", gitlab.review)
+    -- vim.keymap.set("n", "gls", gitlab.summary)
+    -- vim.keymap.set("n", "glA", gitlab.approve)
+    -- vim.keymap.set("n", "glR", gitlab.revoke)
+    -- vim.keymap.set("n", "glc", gitlab.create_comment)
+    -- vim.keymap.set("v", "glc", gitlab.create_multiline_comment)
+    -- vim.keymap.set("v", "glC", gitlab.create_comment_suggestion)
+    -- vim.keymap.set("n", "glO", gitlab.create_mr)
+    -- vim.keymap.set("n", "glm", gitlab.move_to_discussion_tree_from_diagnostic)
+    -- vim.keymap.set("n", "gln", gitlab.create_note)
+    -- vim.keymap.set("n", "gld", gitlab.toggle_discussions)
+    -- vim.keymap.set("n", "glaa", gitlab.add_assignee)
+    -- vim.keymap.set("n", "glad", gitlab.delete_assignee)
+    -- vim.keymap.set("n", "glla", gitlab.add_label)
+    -- vim.keymap.set("n", "glld", gitlab.delete_label)
+    -- vim.keymap.set("n", "glra", gitlab.add_reviewer)
+    -- vim.keymap.set("n", "glrd", gitlab.delete_reviewer)
+    -- vim.keymap.set("n", "glp", gitlab.pipeline)
+    -- vim.keymap.set("n", "glM", gitlab.merge)
+    -- vim.keymap.set("n", "glu", gitlab.copy_mr_url)
+    -- vim.keymap.set("n", "glP", gitlab.publish_all_drafts)
   },
   v = {
     ["n"] = { "nzz", "Next + auto center" },
@@ -402,26 +404,50 @@ M.telescope = {
   n = {
     -- Resume
     ["<a-f>"] = { "<cmd> Telescope resume <CR>", "Resume" },
+    ["<a-k>"] = { "<cmd> Telescope keymaps <CR>", "Show (and search) all [k]eymaps" },
     -- find
     ["<C-g>"] = { "<cmd> Telescope find_files <CR>", "Find files" },
     ["<C-x>"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "Find all" },
     ["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Live grep" },
     ["<C-b>"] = { "<cmd> Telescope buffers <CR>", "Find buffers" },
 
-    ["<leader>ff"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text='<<<<<<< HEAD'}) <CR>", "Search for git conflicts" },
+    ["<leader>ff"] = {
+      "<cmd> lua require('telescope.builtin').live_grep({default_text='<<<<<<< HEAD'}) <CR>",
+      "Search for git conflicts",
+    },
 
     ["<leader>fg<CR>"] = { "<cmd> lua require('telescope.builtin').live_grep({}) <CR>", "Live grep" },
-    ["<leader>fg/"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>", "Live grep with search term" },
-    ["<leader>fgw"] = { "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.expand('<cword>')}) <CR>", "Live grep with current word" },
+    ["<leader>fg/"] = {
+      "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.getreg('/')}) <CR>",
+      "Live grep with search term",
+    },
+    ["<leader>fgw"] = {
+      "<cmd> lua require('telescope.builtin').live_grep({default_text=vim.fn.expand('<cword>')}) <CR>",
+      "Live grep with current word",
+    },
 
     ["<leader>gf<CR>"] = { "<cmd> lua require('telescope.builtin').find_files({}) <CR>", "Find files" },
-    ["<leader>gf/"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.getreg('/')}) <CR>", "Find files with search term" },
-    ["<leader>gfw"] = { "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.expand('<cword>')}) <CR>", "Find files with current word" },
+    ["<leader>gf/"] = {
+      "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.getreg('/')}) <CR>",
+      "Find files with search term",
+    },
+    ["<leader>gfw"] = {
+      "<cmd> lua require('telescope.builtin').find_files({default_text=vim.fn.expand('<cword>')}) <CR>",
+      "Find files with current word",
+    },
 
-
-    ["<leader>br<CR>"] = { ":execute '%s/' . input('Search term >') . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace pattern in current buffer" },
-    ["<leader>br/"] = { ":execute '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace search term pattern in current buffer" },
-    ["<leader>brw"] = { ":execute '%s/' . input('Search term >', expand('<cword>')) . '/' . input('Replace by >', '') . '/g | update' <CR>", "Replace current word pattern in current buffer" },
+    ["<leader>br<CR>"] = {
+      ":execute '%s/' . input('Search term >') . '/' . input('Replace by >', '') . '/g | update' <CR>",
+      "Replace pattern in current buffer",
+    },
+    ["<leader>br/"] = {
+      ":execute '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >', '') . '/g | update' <CR>",
+      "Replace search term pattern in current buffer",
+    },
+    ["<leader>brw"] = {
+      ":execute '%s/' . input('Search term >', expand('<cword>')) . '/' . input('Replace by >', '') . '/g | update' <CR>",
+      "Replace current word pattern in current buffer",
+    },
 
     -- Quickfix list
     ["<leader>ql"] = { "<cmd> Telescope quickfix <CR>", "Show qflist" },
@@ -432,14 +458,32 @@ M.telescope = {
     ["<leader>qc"] = { ":call setqflist([]) | cclose<CR>", "Clear qflist" },
 
     -- Quickfix replace all
-    ["<leader>qr<CR>"] = { ":execute 'cfdo' '%s/' . input('Search term >') . '/' . input('Replace by >') . '/gI | update' <CR>", "Replace pattern in all qflist" },
-    ["<leader>qr/"] = { ":execute 'cfdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >') . '/gI | update' <CR>", "Replace search term in all qflist" },
-    ["<leader>qrw"] = { ":execute 'cfdo' '%s/' . input('Search term >', expand('<cword>')) . '/' . input('Replace by >') . '/gI | update' <CR>", "Replace current word in all qflist" },
+    ["<leader>qr<CR>"] = {
+      ":execute 'cfdo' '%s/' . input('Search term >') . '/' . input('Replace by >') . '/gI | update' <CR>",
+      "Replace pattern in all qflist",
+    },
+    ["<leader>qr/"] = {
+      ":execute 'cfdo' '%s/' . input('Search term >', getreg('/')) . '/' . input('Replace by >') . '/gI | update' <CR>",
+      "Replace search term in all qflist",
+    },
+    ["<leader>qrw"] = {
+      ":execute 'cfdo' '%s/' . input('Search term >', expand('<cword>')) . '/' . input('Replace by >') . '/gI | update' <CR>",
+      "Replace current word in all qflist",
+    },
 
     -- Quickfix "search"
-    ["<leader>qs<CR>"] = { ":execute 'vimgrep' '/' . input('Pattern >') . '\\C/' '**/*' <CR>", "Add <> files in qflist" },
-    ["<leader>qs/"] = { ":execute 'vimgrep' '/' . input('Pattern >', getreg('/')) . '\\C/' '**/*' <CR>", "Add search term files in qflist" },
-    ["<leader>qsw"] = { ":execute 'vimgrep' '/' . input('Pattern >', expand('<cword>')) . '\\C/' '**/*' <CR>", "Add current word files in qflist" },
+    ["<leader>qs<CR>"] = {
+      ":execute 'vimgrep' '/' . input('Pattern >') . '\\C/' '**/*' <CR>",
+      "Add <> files in qflist",
+    },
+    ["<leader>qs/"] = {
+      ":execute 'vimgrep' '/' . input('Pattern >', getreg('/')) . '\\C/' '**/*' <CR>",
+      "Add search term files in qflist",
+    },
+    ["<leader>qsw"] = {
+      ":execute 'vimgrep' '/' . input('Pattern >', expand('<cword>')) . '\\C/' '**/*' <CR>",
+      "Add current word files in qflist",
+    },
 
     -- Loclist list
     ["<leader>ll"] = { "<cmd> Telescope loclist <CR>", "Show loclist" },
@@ -452,8 +496,14 @@ M.telescope = {
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "Help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "Find oldfiles" },
     ["<leader>fx<CR>"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
-    ["<leader>fx/"] = { "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find({default_text=vim.fn.getreg('/')}) <CR>", "Fuzzy find in current buffer with actual search" },
-    ["<leader>fxw"] = { "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find({default_text=vim.fn.expand('<cword>')}) <CR>", "Fuzzy find in current buffer with current word" },
+    ["<leader>fx/"] = {
+      "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find({default_text=vim.fn.getreg('/')}) <CR>",
+      "Fuzzy find in current buffer with actual search",
+    },
+    ["<leader>fxw"] = {
+      "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find({default_text=vim.fn.expand('<cword>')}) <CR>",
+      "Fuzzy find in current buffer with current word",
+    },
 
     ["<leader>wl"] = { "<cmd> Telescope workspaces <CR>", "Find workspaces" },
 
@@ -482,8 +532,14 @@ M.telescope = {
     ["<leader>/"] = { "<cmd> Telescope search_history <CR>", "telescope search history" },
 
     -- Diaglist: LSP diagnostics in quick/loc list
-    ["<leader>dw"] = { "<cmd>lua require('diaglist').open_all_diagnostics()<CR>", "Open all open buffers diagnostics in qflist" },
-    ["<leader>d0"] = { "<cmd>lua require('diaglist').open_buffer_diagnostics()<CR>", "Open current buffer diagnostics in loclist" },
+    ["<leader>dw"] = {
+      "<cmd>lua require('diaglist').open_all_diagnostics()<CR>",
+      "Open all open buffers diagnostics in qflist",
+    },
+    ["<leader>d0"] = {
+      "<cmd>lua require('diaglist').open_buffer_diagnostics()<CR>",
+      "Open current buffer diagnostics in loclist",
+    },
 
     ["<leader>;"] = { "<cmd> Telescope <CR>", "Open Telescope" },
   },
@@ -664,14 +720,14 @@ M.gitsigns = {
 
 local all_modes = {
   -- Override all delete/yank/paste to use the registers M by default
-  ["y"] = { "\"my", "Yank", { remap=false } },
-  ["p"] = { "\"mp", "Paste", { remap=false } },
-  ["d"] = { "\"md", "Delete", { remap=false } },
+  ["y"] = { '"my', "Yank", { remap = false } },
+  ["p"] = { '"mp', "Paste", { remap = false } },
+  ["d"] = { '"md', "Delete", { remap = false } },
 
-  ["<leader>y"] = { "\"+y", "Yank into system register", { remap=false } },
-  ["<leader>p"] = { "\"+p", "Paste from system register", { remap=false } },
+  ["<leader>y"] = { '"+y', "Yank into system register", { remap = false } },
+  ["<leader>p"] = { '"+p', "Paste from system register", { remap = false } },
 }
 
-M.general[{"n", "v"}] = all_modes
+M.general[{ "n", "v" }] = all_modes
 
 return M

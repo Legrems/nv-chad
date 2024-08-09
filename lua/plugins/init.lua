@@ -13,60 +13,62 @@ local default_plugins = {
     end,
     ft = { "markdown" },
   },
-  {"tpope/vim-fugitive", lazy=false},
-  {"rbong/vim-flog", lazy=false},
-  {"tpope/vim-surround", lazy=false},
-  {"tpope/vim-obsession", lazy=false},
-  {"preservim/tagbar", lazy=false},
-  {"ludovicchabant/vim-gutentags", lazy=false},
-  {"emaniacs/vim-rest-console", lazy=false},
-  {"git@github.com:mfussenegger/nvim-dap.git", lazy=false},
+  { "tpope/vim-fugitive", lazy = false },
+  { "rbong/vim-flog", lazy = false },
+  { "tpope/vim-surround", lazy = false },
+  { "tpope/vim-obsession", lazy = false },
+  { "preservim/tagbar", lazy = false },
+  { "ludovicchabant/vim-gutentags", lazy = false },
+  { "emaniacs/vim-rest-console", lazy = false },
+  { "mfussenegger/nvim-dap", lazy = false },
   {
-    "git@github.com:rcarriga/nvim-dap-ui",
+    "rcarriga/nvim-dap-ui",
     dependencies = {
       "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio"
+      "nvim-neotest/nvim-nio",
     },
-    lazy=false,
+    lazy = false,
   },
   {
-    "git@github.com:mfussenegger/nvim-dap-python.git",
+    "mfussenegger/nvim-dap-python",
     dependencies = {
       "mfussenegger/nvim-dap",
       "rcarriga/nvim-dap-ui",
     },
-    lazy=false,
+    lazy = false,
     init = function()
-      require("dap-python").setup("python")
+      require("dap-python").setup "python"
       -- Setup nvim-dap-ui also
       require("dapui").setup()
     end,
-    config = function(_, opts)
-      local dap = require('dap')
-      vim.api.nvim_set_hl(0, "dark-orange", { bg="#402c16"})
-      vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
-      vim.fn.sign_define('DapStopped', {text='', texthl='', linehl='dark-orange', numhl=''})
-      dap.defaults.fallback.terminal_win_cmd = 'tabnew'
+    config = function(_, _)
+      local dap = require "dap"
+      vim.api.nvim_set_hl(0, "dark-orange", { bg = "#402c16" })
+      vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapStopped", { text = "", texthl = "", linehl = "dark-orange", numhl = "" })
+      dap.defaults.fallback.terminal_win_cmd = "tabnew"
       dap.defaults.fallback.focus_terminal = true
     end,
   },
   {
     "Weissle/persistent-breakpoints.nvim",
-    lazy=false,
-    config = function(_, opts)
-      require('persistent-breakpoints').setup{
-        load_breakpoints_event = { "BufReadPost" }
+    lazy = false,
+    config = function(_, _)
+      require("persistent-breakpoints").setup {
+        load_breakpoints_event = { "BufReadPost" },
       }
     end,
   },
-  {"nvim-telescope/telescope-dap.nvim", lazy=false},
-  {"harrisoncramer/gitlab.nvim",
+  { "nvim-telescope/telescope-live-grep-args.nvim", lazy = false },
+  { "nvim-telescope/telescope-dap.nvim", lazy = false },
+  {
+    "harrisoncramer/gitlab.nvim",
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
       "sindrets/diffview.nvim",
       "stevearc/dressing.nvim", -- Recommended but not required. Better UI for pickers.
-      "nvim-tree/nvim-web-devicons" -- Recommended but not required. Icons in discussion tree.
+      "nvim-tree/nvim-web-devicons", -- Recommended but not required. Icons in discussion tree.
     },
     enabled = true,
     lazy = false,
@@ -82,13 +84,64 @@ local default_plugins = {
   },
   {
     "sindrets/diffview.nvim",
-    lazy=false,
+    lazy = false,
     opts = function()
       return require "plugins.configs.diffview"
     end,
   },
 
-  {"nvim-telescope/telescope-fzf-native.nvim", build="make"},
+  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+
+  {
+    "stevearc/quicker.nvim",
+    opts = {},
+    init = function()
+      require("quicker").setup()
+    end,
+  },
+
+  {
+    "chentoast/marks.nvim",
+    lazy = false,
+    init = function()
+      require("marks").setup {
+        default_mappings = true,
+        signs = true,
+        mappings = {},
+      }
+    end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {},
+    init = function()
+      require("conform").setup {
+        formatters_by_ft = {
+          lua = { "stylua" },
+          -- You can use a function here to determine the formatters dynamically
+          python = function(bufnr)
+            if require("conform").get_formatter_info("ruff_format", bufnr).available then
+              return { "isort", "black" }
+              -- return { "ruff_format" }
+            else
+              return { "isort", "black" }
+            end
+          end,
+          -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        },
+        options = {
+          lang_to_formatters = {
+            json = { "jq" },
+          },
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_format = "fallback",
+        },
+      }
+    end,
+  },
 
   {
     "NvChad/base46",
@@ -174,9 +227,7 @@ local default_plugins = {
     "nvim-treesitter/nvim-treesitter-textobjects",
     lazy = false,
     config = function()
-      require("nvim-treesitter.configs").setup(
-        require("plugins.configs.treesitter_textobjects")
-      )
+      require("nvim-treesitter.configs").setup(require "plugins.configs.treesitter_textobjects")
     end,
   },
 
@@ -294,56 +345,115 @@ local default_plugins = {
     "desdic/macrothis.nvim",
     opts = {},
     keys = {
-      { "<Leader>kkd", function() require('macrothis').delete() end, desc = "Delete" },
-      { "<Leader>kke", function() require('macrothis').edit() end, desc = "Edit" },
-      { "<Leader>kkl", function() require('macrothis').load() end, desc = "Load" },
-      { "<Leader>kkn", function() require('macrothis').rename() end, desc = "Rename" },
-      { "<Leader>kkq", function() require('macrothis').quickfix() end, desc = "Run macro on all files in quickfix" },
-      { "<Leader>kkr", function() require('macrothis').run() end, desc = "Run macro" },
-      { "<Leader>kks", function() require('macrothis').save() end, desc = "Save" },
-      { "<Leader>kkx", function() require('macrothis').register() end, desc = "Edit register" },
-      { "<Leader>kkp", function() require('macrothis').copy_register_printable() end, desc = "Copy register as printable" },
-      { "<Leader>kkm", function() require('macrothis').copy_macro_printable() end, desc = "Copy macro as printable" },
-    }
+      {
+        "<Leader>kkd",
+        function()
+          require("macrothis").delete()
+        end,
+        desc = "[D]elete",
+      },
+      {
+        "<Leader>kke",
+        function()
+          require("macrothis").edit()
+        end,
+        desc = "[E]dit",
+      },
+      {
+        "<Leader>kkl",
+        function()
+          require("macrothis").load()
+        end,
+        desc = "[L]oad",
+      },
+      {
+        "<Leader>kkn",
+        function()
+          require("macrothis").rename()
+        end,
+        desc = "Re[n]ame",
+      },
+      {
+        "<Leader>kkq",
+        function()
+          require("macrothis").quickfix()
+        end,
+        desc = "Run macro on all files in [q]uickfix",
+      },
+      {
+        "<Leader>kkr",
+        function()
+          require("macrothis").run()
+        end,
+        desc = "[R]un macro",
+      },
+      {
+        "<Leader>kks",
+        function()
+          require("macrothis").save()
+        end,
+        desc = "[S]ave",
+      },
+      {
+        "<Leader>kkx",
+        function()
+          require("macrothis").register()
+        end,
+        desc = "Edit register",
+      },
+      {
+        "<Leader>kkp",
+        function()
+          require("macrothis").copy_register_printable()
+        end,
+        desc = "Co[p]y register as printable",
+      },
+      {
+        "<Leader>kkm",
+        function()
+          require("macrothis").copy_macro_printable()
+        end,
+        desc = "Copy [m]acro as printable",
+      },
+    },
   },
-
   {
     "onsails/diaglist.nvim",
-    lazy=false,
-    debug=false,
+    lazy = false,
+    debug = false,
   },
 
   {
     "anuvyklack/hydra.nvim",
-    lazy=false,
+    lazy = false,
   },
 
   {
     "gioele/vim-autoswap",
-    lazy=false,
+    lazy = false,
   },
 
   {
     "natecraddock/workspaces.nvim",
-    lazy=false,
+    lazy = false,
 
     config = function()
-      require("workspaces").setup({
+      require("workspaces").setup {
         hooks = {
-          open = {"Telescope find_files"},
-        }
-      })
+          open = { "Telescope find_files" },
+        },
+      }
     end,
   },
 
   {
     "mangelozzi/rgflow.nvim",
-    lazy=false,
+    lazy = false,
 
     config = function()
-      require("rgflow").setup({
+      require("rgflow").setup {
         -- Set the default rip grep flags and options for when running a search via
-        -- RgFlow. Once changed via the UI, the previous search flags are used for 
+        -- RgFlow. Once changed via the UI, the previous search flags are used for
         -- each subsequent search (until Neovim restarts).
         cmd_flags = "--smart-case --fixed-strings --ignore --max-columns 200",
 
@@ -353,32 +463,32 @@ local default_plugins = {
         default_ui_mappings = true,
         -- QuickFix window only mapping
         default_quickfix_mappings = true,
-      })
+      }
     end,
   },
 
   {
     "yorickpeterse/nvim-window",
-    lazy=false,
+    lazy = false,
     config = function()
-      require('nvim-window').setup({
-        normal_hl = 'Normal',
-        hint_hl = 'Bold',
-        border = 'single'
-      })
+      require("nvim-window").setup {
+        normal_hl = "Normal",
+        hint_hl = "Bold",
+        border = "single",
+      }
     end,
   },
 
   {
     "sindrets/winshift.nvim",
-    lazy=false,
+    lazy = false,
   },
 
   {
     "kdheepak/lazygit.nvim",
-    lazy=false,
+    lazy = false,
     config = function()
-      require("lazy").setup({
+      require("lazy").setup {
         {
           "kdheepak/lazygit.nvim",
           -- optional for floating window border decoration
@@ -386,7 +496,7 @@ local default_plugins = {
             "nvim-lua/plenary.nvim",
           },
         },
-      })
+      }
     end,
   },
 
@@ -431,7 +541,7 @@ local default_plugins = {
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
-    lazy=false,
+    lazy = false,
     keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
     init = function()
       require("core.utils").load_mappings "whichkey"
@@ -445,13 +555,26 @@ local default_plugins = {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" }
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = function()
       return require "plugins.configs.noice"
+    end,
+    init = function()
+      require("noice").setup {
+        routes = {
+          {
+            view = "notify",
+            filter = { event = "msg_showmode" },
+          },
+        },
+      }
+      -- require("notify").setup({
+      --   background_colour = "#000000"
+      -- })
     end,
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -460,14 +583,14 @@ local default_plugins = {
   },
   {
     "folke/todo-comments.nvim",
-    lazy=false,
+    lazy = false,
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
-    }
-  }
+    },
+  },
 }
 
 local config = require("core.utils").load_config()
