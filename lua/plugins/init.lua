@@ -136,7 +136,7 @@ local default_plugins = {
           },
         },
         format_on_save = {
-          timeout_ms = 500,
+          timeout_ms = 1000,
           lsp_format = "fallback",
         },
       }
@@ -590,6 +590,12 @@ local default_plugins = {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
+  },
+  {
+    "folke/trouble.nvim",
+    lazy = false,
+    cmd = "Trouble",
+    opts = {},
   },
 }
 

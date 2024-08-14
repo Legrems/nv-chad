@@ -42,10 +42,17 @@ M.capabilities.textDocument.completion.completionItem = {
 
 M.capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
 
+-- LSP settings (for overriding per client)
+M.handlers = {
+  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+}
+
 require("lspconfig").lua_ls.setup {
   on_init = M.on_init,
   on_attach = M.on_attach,
   capabilities = M.capabilities,
+  handlers = M.handlers,
 
   settings = {
     Lua = {
@@ -73,6 +80,7 @@ require("lspconfig").pyright.setup {
   on_init = M.on_init,
   on_attach = M.on_attach,
   capabilities = M.capabilities,
+  handlers = M.handlers,
 
   settings = {
     pyright = {
@@ -86,6 +94,7 @@ require("lspconfig").pyright.setup {
         -- typeCheckingMode = "off", -- Using mypy
         diagnosticSeverityOverrides = {
           reportMissingImports = false,
+          reportAttributeAccessIssue = false,
         },
       },
     },

@@ -35,18 +35,6 @@ M.ui = {
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
     separator_style = "default",
-    overriden_modules = function(modules)
-      modules[1] = (function()
-        local noice = require("noice")
-        if noice.api.statusline.mode.has() then
-          return "%#St_CommandMode#" .. noice.api.statusline.mode.get() .. modules[1]
-        end
-        return modules[1]
-      end)()
-    end,
-    fileInfo = function()
-        return require("nvchad_ui.statusline.default.fileInfo").run()
-    end,
   },
 
   -- lazyload it when there are 1+ buffers

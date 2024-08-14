@@ -13,6 +13,9 @@ M.load_config = function()
     config.mappings.disabled = nil
   end
 
+  -- print(vim.inspect(config))
+  -- print(config)
+  -- print(vim.inspect(config.ui.statusline))
   return config
 end
 

@@ -59,6 +59,14 @@ M.general = {
     -- ["<leader>y"] = {"<cmd> :w! /tmp/vimtmp<CR>", "Save into a global tmp file"},
     -- ["<leader>p"] = {"<cmd> :r! cat /tmp/vimtmp<CR>", "Restore from the global tmp file"},
 
+    -- (Double) Trouble
+    ["<leader>tx"] = { ":Trouble diagnostics toggle<CR>", "[T]rouble diagnostics" },
+    ["<leader>tX"] = { ":Trouble diagnostics toggle filter.buf=0<CR>", "[T]rouble buffer diagnostics" },
+    ["<leader>ts"] = { ":Trouble symbols toggle focus=false<CR>", "[T]rouble [S]ymbols" },
+    ["<leader>tl"] = { ":Trouble lsp toggle focus=false win.position=right<CR>", "[T]rouble [L]sp def / ref / ..." },
+    ["<leader>tL"] = { ":Trouble loclist toggle<CR>", "[T]rouble [L]oclist" },
+    ["<leader>tQ"] = { ":Trouble qflist toggle<CR>", "[T]rouble [Q]uickfix" },
+
     ["<leader>dgg"] = { ":lua require('dap').continue() <CR>", "Continue debu[g]ging" },
     ["<leader>dg<CR>"] = { ":lua require('dapui').toggle() <CR>", "Toggle DAP ui" },
     ["<leader>dgw"] = { ":lua require('dapui').eval() <CR>", "Open floating windows about current [w]ord" },
@@ -227,12 +235,12 @@ M.tabufline = {
     },
 
     -- close buffer + hide terminal buffer
-    ["<leader>x"] = {
-      function()
-        require("nvchad.tabufline").close_buffer()
-      end,
-      "Close buffer",
-    },
+    -- ["<leader>x"] = {
+    --   function()
+    --     require("nvchad.tabufline").close_buffer()
+    --   end,
+    --   "Close buffer",
+    -- },
   },
 }
 
@@ -523,8 +531,7 @@ M.telescope = {
     ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "Pick hidden term" },
 
     -- theme switcher
-    ["<leader>th"] = { "<cmd> Telescope themes <CR>", "Nvchad themes" },
-
+    -- ["<leader>th"] = { "<cmd> Telescope themes <CR>", "Nvchad themes" },
     ["<leader>ma"] = { "<cmd> Telescope marks <CR>", "telescope bookmarks" },
 
     -- History
@@ -709,7 +716,7 @@ M.gitsigns = {
       "Blame line",
     },
 
-    ["<leader>td"] = {
+    ["<leader>bd"] = {
       function()
         require("gitsigns").toggle_deleted()
       end,
